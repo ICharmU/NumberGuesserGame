@@ -19,7 +19,7 @@ hint.set("Guess your first number!")
 
 def game_startup():
     global start_button
-    start_button = Button(win, text='Start Game', font=('Helvetica', 48), command = game_startup_transition, relief = GROOVE, bg = 'lightgreen')
+    start_button = Button(win, text='Start Game', font=('Helvetica', 48), command = lambda: (hide_buttons([start_button]), ask_for_number()), relief = GROOVE, bg = 'lightgreen')
     start_button.place(relx = 0.5, rely = 0.5, anchor = CENTER)
 
 def ask_for_number():
@@ -79,17 +79,9 @@ def game_completion_cycle(gameplay_loop_widgets):
     completion_text = Label(win, text = f'Great job, the number was {number_to_guess}\n\nIt only took you {number_of_guesses.get()} guesses!', font=('Helvetica', 48))
     completion_text.place(relx = 0.5, rely = 0.2, anchor = CENTER)
     game_completion_cycle_widgets.append(completion_text)
-    play_again_button = Button(win, width = 36, text = 'Play Again', font=('Helvetica', 48), command = restart_game, relief = GROOVE, bg = 'violet')
+    play_again_button = Button(win, width = 36, text = 'Play Again', font=('Helvetica', 48), command = lambda:(hide_buttons(game_completion_cycle_widgets), ask_for_number()), relief = GROOVE, bg = 'violet')
     play_again_button.place(relx = 0.5, rely = 0.5, anchor = CENTER)
     game_completion_cycle_widgets.append(play_again_button)
-
-def game_startup_transition():
-    hide_buttons([start_button])
-    ask_for_number()
-
-def restart_game():
-    hide_buttons(game_completion_cycle_widgets)
-    ask_for_number()
 
 def hide_buttons(button_list):
     for button in button_list:
