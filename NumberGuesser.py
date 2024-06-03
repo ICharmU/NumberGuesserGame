@@ -20,22 +20,22 @@ class GamePlay(tk.Frame):
         self.completion_text_str = StringVar()
         self.description_text = StringVar()
         #ask_for_number widgets
-        self.user_input_number_entry = Entry(win, textvariable = self.user_input_number, width=3, font=('Helvetica', 48))
-        self.user_input_number_label = Label(win, text = 'Choose the largest number you would like to guess:', font=('Helvetica', 48))
-        self.user_input_number_button = Button(win, width = 32, text='Select Number', font=('Helvetica', 48), command = lambda:(self.max.set(self.user_input_number.get()),
-                                                                                                                          self.number_to_guess.set(random.randint(1,self.max.get())), self.gameplay_loop()), relief = GROOVE, bg='orange')
+        self.user_input_number_entry = Entry(win, textvariable = self.user_input_number, width=3, font=('Nimbus Sans', 48))
+        self.user_input_number_label = Label(win, text = 'Choose the largest number you would like to guess:', font=('Nimbus Sans', 48),bg='light yellow')
+        self.user_input_number_button = Button(win, width = 32, text='Select Number', font=('Nimbus Sans', 48), command = lambda:(self.max.set(self.user_input_number.get()),
+                                                self.number_to_guess.set(random.randint(1,self.max.get())), self.gameplay_loop()), relief = GROOVE, bg='orange')
         #gameplay_loop widgets
-        self.player_guess_entry = Entry(win, textvariable = self.player_guess, width = 3, font=('Helvetica', 48))
-        self.number_of_guesses_entry = Entry(win, textvariable = self.number_of_guesses, width = 3, font=('Helvetica', 48))
-        self.hint_label = Label(win, textvariable = self.hint, width = 50, font=('Helvetica',48))
-        self.description_label = Label(win, textvariable = self.description_text, font=('Helvetica',48))
-        self.num_guesses_label = Label(win, textvariable = self.number_of_guesses_str, font=('Helvetica',48))
-        self.check_number_button = Button(win, width = 16, text='Check Number', font=('Helvetica', 48), command=self.check_number, relief = GROOVE, bg='pink')
+        self.player_guess_entry = Entry(win, textvariable = self.player_guess, width = 3, font=('Nimbus Sans', 48))
+        self.number_of_guesses_entry = Entry(win, textvariable = self.number_of_guesses, width = 3, font=('Nimbus Sans', 48))
+        self.hint_label = Label(win, textvariable = self.hint, width = 50, font=('Nimbus Sans',48), bg='brown4', fg='yellow')
+        self.description_label = Label(win, textvariable = self.description_text, font=('Nimbus Sans',48), bg='brown4', fg='yellow')
+        self.num_guesses_label = Label(win, textvariable = self.number_of_guesses_str, font=('Nimbus Sans',48), bg='brown4', fg='yellow')
+        self.check_number_button = Button(win, width = 16, text='Check Number', font=('Nimbus Sans', 48), command=self.check_number, relief = GROOVE, bg='pink')
         #game_completion_cycle widgets
-        self.completion_text = Label(win, textvariable = self.completion_text_str, font=('Helvetica', 48))
-        self.play_again_button = Button(win, width = 36, text = 'Play Again', font=('Helvetica', 48), command=lambda:(self.hide_buttons(self.all_widgets), self.ask_for_number()), relief = GROOVE, bg='violet')
+        self.completion_text = Label(win, textvariable = self.completion_text_str, font=('Nimbus Sans', 48), bg='purple', fg='light blue')
+        self.play_again_button = Button(win, width = 36, text = 'Play Again', font=('Nimbus Sans', 48), command=lambda:(self.hide_buttons(self.all_widgets), self.ask_for_number()), relief = GROOVE, bg='violet')
         #statistics widgets
-        self.stats_label = Label(win, textvariable = self.stats_text, width = 50, font=('Helvetica',48))
+        self.stats_label = Label(win, textvariable = self.stats_text, width = 50, font=('Nimbus Sans',48), bg='purple', fg='red')
         #widget list
         self.all_widgets = [self.user_input_number_entry, self.user_input_number_label,
                             self.user_input_number_button, self.player_guess_entry,
@@ -46,17 +46,20 @@ class GamePlay(tk.Frame):
                             ]
         #hide widgets by default
         self.hide_buttons(self.all_widgets)
+        #default background color
+        self.parent['bg'] = 'dark green'
         
     #displays starting option
     def game_startup(self):
         print('game_startup')
         self.total_plays.set(0)
         self.total_guesses.set(0)
-        start_button = Button(win, text='Start Game', font=('Helvetica', 48), command = lambda: (start_button.place(relx = -1, rely = -1, anchor = CENTER), self.ask_for_number()), relief = GROOVE, bg = 'lightgreen')
+        start_button = Button(win, text='Start Game', font=('Nimbus Sans', 48), command = lambda: (start_button.place(relx = -1, rely = -1, anchor = CENTER), self.ask_for_number()), relief = GROOVE, bg = 'lightgreen')
         start_button.place(relx = 0.5, rely = 0.5, anchor = CENTER)
     
     #uses a user inputted number for initializing values
     def ask_for_number(self):
+        self.parent['bg'] = 'light yellow'
         print('ask_for_number')
         self.number_of_guesses.set(0)
         self.number_of_guesses_str.set(f'You have guessed {self.number_of_guesses.get()} times!')
@@ -78,11 +81,13 @@ class GamePlay(tk.Frame):
         elif guess<self.number_to_guess.get():
             self.hint.set(f"The number is greater than {guess}")
         else:
+            self.parent['bg'] = 'purple'
             self.game_completion_cycle()
         self.parent.update()    
 
     #initializes values and updates screen for a new game
     def gameplay_loop(self):
+        self.parent['bg'] = 'brown4'
         print('gameplay_loop')
         self.hide_buttons(self.all_widgets)
         self.max.set(self.user_input_number.get())
